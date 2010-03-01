@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Pat Allan"]
-  s.date = %q{2009-12-03}
+  s.date = %q{2010-03-01}
   s.description = %q{Manage delta indexes via datetime columns for Thinking Sphinx}
   s.email = %q{pat@freelancing-gods.com}
   s.extra_rdoc_files = [
@@ -20,7 +20,8 @@ Gem::Specification.new do |s|
     "LICENSE",
      "README.textile",
      "lib/thinking_sphinx/deltas/datetime_delta.rb",
-     "lib/thinking_sphinx/deltas/datetime_delta/tasks.rb"
+     "lib/thinking_sphinx/deltas/datetime_delta/tasks.rb",
+     "lib/ts-datetime-delta.rb"
   ]
   s.homepage = %q{http://github.com/freelancing-god/ts-datetime-delta}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -28,26 +29,25 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Thinking Sphinx - Datetime Deltas}
   s.test_files = [
-    "features/datetime_deltas.feature",
-     "features/step_definitions",
-     "features/step_definitions/common_steps.rb",
+    "features/step_definitions",
      "features/step_definitions/datetime_delta_steps.rb",
+     "features/step_definitions/common_steps.rb",
      "features/support",
      "features/support/database.example.yml",
-     "features/support/database.yml",
      "features/support/db",
      "features/support/db/fixtures",
      "features/support/db/fixtures/thetas.rb",
      "features/support/db/migrations",
      "features/support/db/migrations/create_thetas.rb",
-     "features/support/env.rb",
      "features/support/models",
      "features/support/models/theta.rb",
-     "spec/spec.opts",
+     "features/support/env.rb",
+     "features/datetime_deltas.feature",
      "spec/spec_helper.rb",
      "spec/thinking_sphinx",
      "spec/thinking_sphinx/deltas",
-     "spec/thinking_sphinx/deltas/datetime_delta_spec.rb"
+     "spec/thinking_sphinx/deltas/datetime_delta_spec.rb",
+     "spec/spec.opts"
   ]
 
   if s.respond_to? :specification_version then
