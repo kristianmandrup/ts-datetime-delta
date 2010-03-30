@@ -9,7 +9,7 @@
 # @see http://ts.freelancing-gods.com Thinking Sphinx
 # 
 class ThinkingSphinx::Deltas::DatetimeDelta < ThinkingSphinx::Deltas::DefaultDelta
-  attr_accessor :column, :threshold
+  attr_accessor :column, :threshold, :tracking_table, :deleted_column
   
   # Initialises the Delta object for the given index and settings. All handled
   # by Thinking Sphinx, so you shouldn't need to call this method yourself in
@@ -28,9 +28,11 @@ class ThinkingSphinx::Deltas::DatetimeDelta < ThinkingSphinx::Deltas::DefaultDel
   #   changes for, in seconds. Defaults to one day.
   # 
   def initialize(index, options = {})
-    @index      = index
-    @column     = options.delete(:delta_column) || :updated_at
-    @threshold  = options.delete(:threshold)    || 1.day
+    @index          = index
+    @column         = options.delete(:delta_column) || :updated_at
+    @deleted_column = options.delete(:deleted_column) || nil
+    @threshold      = options.delete(:threshold) || 1.day
+    @tracking_table = options.delete(:tracking_table) || nil
   end
   
   # Does absolutely nothing, beyond returning true. Thinking Sphinx expects
@@ -100,7 +102,12 @@ class ThinkingSphinx::Deltas::DatetimeDelta < ThinkingSphinx::Deltas::DefaultDel
   # @return [NilClass] Always nil
   # 
   def reset_query(model)
-    nil
+    if @tracking_table
+      "REPLACE INTO #{@tracking_table} (id, last_indexed_at) " + 
+      "VALUES ('#{model.table_name}', #{adapter.time_difference(@threshold)})"
+    else
+      nil
+    end
   end
   
   # A SQL condition (as part of the WHERE clause) that limits the result set to
@@ -124,4 +131,19 @@ class ThinkingSphinx::Deltas::DatetimeDelta < ThinkingSphinx::Deltas::DefaultDel
       nil
     end
   end
+  
+  def killlist_clause(model)
+    if @tracking_table
+      clause = "#{model.quoted_table_name}.#{model.connection.quote_column_name(@column.to_s)} >= " + 
+      "(SELECT last_indexed_at from #{@tracking_table} where id = '#{model.table_name}')"
+      if @deleted_column.present?
+        clause += " || #{model.quoted_table_name}.#{model.connection.quote_column_name(@deleted_column.to_s)} >= " + 
+        "(SELECT last_indexed_at from #{@tracking_table} where id = '#{model.table_name}')"
+      end
+      clause
+    else
+      ""
+    end
+  end
+  
 end
