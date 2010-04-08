@@ -110,6 +110,7 @@ describe ThinkingSphinx::Deltas::DatetimeDelta do
   end
   
   describe '#reset_query' do
+
     it "should be nil" do
       @datetime_delta.reset_query(@model).should be_nil
     end
@@ -135,4 +136,32 @@ describe ThinkingSphinx::Deltas::DatetimeDelta do
         should == '`foo`.`updated_at` > time_difference'
     end
   end
+  
+  describe "when the tracking_table is set" do
+    before do
+      @adapter = stub('adapter',
+        :time_difference => 'NOW()'
+      )
+      @model   = stub('foo',
+        :name                    => 'foo',
+        :table_name              => 'foos',
+        :sphinx_database_adapter => @adapter
+      )
+      @index   = stub('index',
+        :delta?     => true,
+        :model      => @model,
+        :core_name  => 'foo_core',
+        :delta_name => 'foo_delta'
+      )
+      @datetime_delta = ThinkingSphinx::Deltas::DatetimeDelta.new(@index, :tracking_table => 'search_tracking')
+    end
+    it "should be set if config option 'tracking_table' is set" do
+      
+      @datetime_delta.reset_query(@model).should_not be_nil
+    end
+    
+    
+  end
+  
+  
 end
