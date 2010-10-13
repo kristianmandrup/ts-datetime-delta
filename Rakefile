@@ -20,7 +20,7 @@ Jeweler::Tasks.new do |gem|
   gem.add_development_dependency "cucumber", ">= 0"
   
   gem.files = FileList[
-    'lib/**/*.rb',
+    'lib/**/*.*',
     'LICENSE',
     'README.textile'
   ]
