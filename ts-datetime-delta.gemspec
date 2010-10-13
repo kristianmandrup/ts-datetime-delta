@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Pat Allan"]
-  s.date = %q{2010-03-01}
+  s.date = %q{2010-10-13}
   s.description = %q{Manage delta indexes via datetime columns for Thinking Sphinx}
   s.email = %q{pat@freelancing-gods.com}
   s.extra_rdoc_files = [
@@ -26,12 +26,13 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/freelancing-god/ts-datetime-delta}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Thinking Sphinx - Datetime Deltas}
   s.test_files = [
-    "features/step_definitions",
-     "features/step_definitions/datetime_delta_steps.rb",
+    "features/datetime_deltas.feature",
+     "features/step_definitions",
      "features/step_definitions/common_steps.rb",
+     "features/step_definitions/datetime_delta_steps.rb",
      "features/support",
      "features/support/database.example.yml",
      "features/support/db",
@@ -39,22 +40,21 @@ Gem::Specification.new do |s|
      "features/support/db/fixtures/thetas.rb",
      "features/support/db/migrations",
      "features/support/db/migrations/create_thetas.rb",
+     "features/support/env.rb",
      "features/support/models",
      "features/support/models/theta.rb",
-     "features/support/env.rb",
-     "features/datetime_deltas.feature",
+     "spec/spec.opts",
      "spec/spec_helper.rb",
      "spec/thinking_sphinx",
      "spec/thinking_sphinx/deltas",
-     "spec/thinking_sphinx/deltas/datetime_delta_spec.rb",
-     "spec/spec.opts"
+     "spec/thinking_sphinx/deltas/datetime_delta_spec.rb"
   ]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<thinking-sphinx>, [">= 1.3.8"])
       s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
       s.add_development_dependency(%q<yard>, [">= 0"])
